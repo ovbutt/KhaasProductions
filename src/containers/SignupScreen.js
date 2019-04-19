@@ -23,13 +23,14 @@ export default class SignupScreen extends Component {
       >
         <View
           style={{
-            marginTop: 100
+            marginTop: 60
           }}
         >
           <Image
             source={require("./../res/images/Logo-Khaas.png")}
             style={{
-              alignSelf: "center"
+              alignSelf: "center",
+              marginBottom: 30
             }}
           />
           <TextInput placeholder="Name" />
@@ -37,22 +38,22 @@ export default class SignupScreen extends Component {
           <TextInput placeholder="Phone Number" />
           <TextInput placeholder="Password" />
           <TextInput placeholder="Confirm Password" />
-          <Button
-            style={{
-              backgroundColor: Colors.secondary,
-              color: Colors.white
-            }}
-            onPress={() => this.props.navigation.navigate("Signup")}
-          >
-            Sign Up
-          </Button>
+          <View style={{ marginTop: 30, marginBottom: 10 }}>
+            <Button
+              style={{
+                backgroundColor: Colors.secondary,
+                color: Colors.white
+              }}
+              onPress={() => this.props.navigation.navigate("Main")}
+            >
+              Sign Up
+            </Button>
+          </View>
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.goBack();
             }}
             style={{
-              width: "80%",
-              height: 40,
               alignItems: "center",
               justifyContent: "center"
             }}
@@ -63,7 +64,15 @@ export default class SignupScreen extends Component {
                 alignSelf: "center"
               }}
             >
-              Already have an account ? Login
+              Already have an account?{" "}
+              <Text
+                style={{
+                  color: Colors.white,
+                  textDecorationLine: "underline"
+                }}
+              >
+                Login
+              </Text>
             </Text>
           </TouchableOpacity>
         </View>

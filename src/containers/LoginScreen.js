@@ -35,9 +35,9 @@ export default class LoginScreen extends Component {
                 backgroundColor: Colors.secondary,
                 color: Colors.white
               }}
-              onPress={() => this.props.navigation.navigate("Signup")}
+              onPress={() => this.props.navigation.navigate("Main")}
             >
-              Sign Up
+              Sign In
             </Button>
           </View>
           <TouchableOpacity
@@ -50,7 +50,15 @@ export default class LoginScreen extends Component {
             }}
           >
             <Text style={{ color: Colors.white, alignSelf: "center" }}>
-              Don't have an account? Create new account
+              Don't have an account?{" "}
+              <Text
+                style={{
+                  color: Colors.white,
+                  textDecorationLine: "underline"
+                }}
+              >
+                Create new account
+              </Text>
             </Text>
           </TouchableOpacity>
         </View>
