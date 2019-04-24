@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, Image } from "react-native";
+import * as Animatable from "react-native-animatable";
 import Colors from "./../res/utils/Colors";
 
 export default class SplashScreen extends Component {
@@ -10,7 +11,8 @@ export default class SplashScreen extends Component {
   }
   render() {
     return (
-      <View
+      <Animatable.View
+        animation="fadeIn"
         style={{
           backgroundColor: Colors.primary,
           flex: 1,
@@ -18,11 +20,12 @@ export default class SplashScreen extends Component {
           justifyContent: "center"
         }}
       >
-        <Image
+        <Animatable.Image
+          animation="zoomIn"
           source={require("./../res/images/LogoSplash.png")}
-         // style={{ height: 150, width: 250 }}
+          // style={{ height: 150, width: 250 }}
         />
-      </View>
+      </Animatable.View>
     );
   }
 }

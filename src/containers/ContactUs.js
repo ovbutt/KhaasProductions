@@ -1,10 +1,31 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Linking
+} from "react-native";
+import Communications from "react-native-communications";
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "./../res/utils/Colors";
 import Button from "./../components/Button";
+import QuoteForm from "./../components/QuoteForm";
+import FeedbackForm from "./../components/FeedbackForm";
 
 export default class ContactUs extends Component {
+  constructor() {
+    super();
+    this.state = { quoteModal: false, feedbackModal: false };
+  }
+  _renderQuoteModal = () => {
+    this.setState({ quoteModal: !this.state.quoteModal });
+  };
+  _renderFeedbackModal = () => {
+    this.setState({ feedbackModal: !this.state.feedbackModal });
+  };
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.primary }}>
@@ -39,13 +60,30 @@ export default class ContactUs extends Component {
           >
             Get a price quote or give us feedbacks on our feedback form
           </Text>
-          <Button>Quotation Form</Button>
+          <Button
+            onPress={() => {
+              this._renderQuoteModal();
+            }}
+          >
+            Quotation Form
+          </Button>
+          <QuoteForm
+            toggleView={this._renderQuoteModal}
+            visible={this.state.quoteModal}
+          />
           <View style={{ marginTop: 10 }}>
             <Button
               style={{ backgroundColor: Colors.secondary, color: "white" }}
+              onPress={() => {
+                this._renderFeedbackModal();
+              }}
             >
               Feedback Form
             </Button>
+            <FeedbackForm
+              visible={this.state.feedbackModal}
+              toggleView={this._renderFeedbackModal}
+            />
           </View>
           <Text
             style={{
@@ -71,12 +109,21 @@ export default class ContactUs extends Component {
           >
             Contact Us @
           </Text>
-          <View
+          <TouchableOpacity
             style={{
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center"
             }}
+            onPress={() =>
+              Communications.email(
+                ["info@khaasproductions.com"],
+                null,
+                null,
+                null,
+                null
+              )
+            }
           >
             <Image
               source={require("./../res/images/email.png")}
@@ -85,13 +132,16 @@ export default class ContactUs extends Component {
             <Text style={{ color: "white", fontSize: 16, marginLeft: 10 }}>
               info@khaasproductions.com
             </Text>
-          </View>
-          <View
+          </TouchableOpacity>
+          <TouchableOpacity
             style={{
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
               marginTop: 15
+            }}
+            onPress={() => {
+              Communications.phonecall("+924235781239", true);
             }}
           >
             <Image
@@ -101,13 +151,16 @@ export default class ContactUs extends Component {
             <Text style={{ color: "white", fontSize: 16, marginLeft: 10 }}>
               +92 42 3578 1239
             </Text>
-          </View>
-          <View
+          </TouchableOpacity>
+          <TouchableOpacity
             style={{
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
               marginTop: 15
+            }}
+            onPress={() => {
+              Linking.openURL("whatsapp://send?text=&phone=+923374866669");
             }}
           >
             <Image
@@ -117,7 +170,7 @@ export default class ContactUs extends Component {
             <Text style={{ color: "white", fontSize: 16, marginLeft: 10 }}>
               +92 337 4866 669
             </Text>
-          </View>
+          </TouchableOpacity>
           <Text
             style={{
               color: "white",
@@ -139,7 +192,14 @@ export default class ContactUs extends Component {
               alignSelf: "center"
             }}
           >
-            <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity
+              style={{ flexDirection: "row" }}
+              onPress={() => {
+                Communications.web(
+                  "https://www.facebook.com/khaasproductions/"
+                );
+              }}
+            >
               <Image
                 source={require("./../res/images/facebook.png")}
                 style={{ height: 25, width: 25 }}
@@ -147,8 +207,15 @@ export default class ContactUs extends Component {
               <Text style={{ color: "white", fontSize: 15, marginLeft: 5 }}>
                 khaasproductions
               </Text>
-            </View>
-            <View style={{ flexDirection: "row", marginLeft: 10 }}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ flexDirection: "row", marginLeft: 10 }}
+              onPress={() => {
+                Communications.web(
+                  "https://www.instagram.com/khaasproductions/"
+                );
+              }}
+            >
               <Image
                 source={require("./../res/images/instagram.png")}
                 style={{ height: 25, width: 25 }}
@@ -156,7 +223,7 @@ export default class ContactUs extends Component {
               <Text style={{ color: "white", fontSize: 15, marginLeft: 5 }}>
                 khaasproductions
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <Text
             style={{

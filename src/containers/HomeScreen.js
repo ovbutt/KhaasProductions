@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Colors from "./../res/utils/Colors";
 import BottomTab from "./../components/BottomTab";
+import { Roboto, Ubuntu } from "./../res/utils/Fonts";
 
 const exploreData = [
   { photo: require("./../res/images/story8.jpg") },
@@ -127,8 +128,15 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView>
-          <Text style={[styles.headingStyle, { marginLeft: 20 }]}>Explore</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text
+            style={[
+              styles.headingStyle,
+              { marginLeft: 20, fontFamily: Roboto.italic }
+            ]}
+          >
+            Explore
+          </Text>
           <View style={{ marginRight: 5, marginTop: 20 }}>
             <FlatList
               data={exploreData}
