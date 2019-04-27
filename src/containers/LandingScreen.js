@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, ImageBackground } from "react-native";
 import Colors from "./../res/utils/Colors";
-import Button from "./../components/Button";
+import { RoundButton } from "./../components/";
 
 export default class LandingScreen extends Component {
   render() {
@@ -39,11 +39,13 @@ export default class LandingScreen extends Component {
               marginTop: 40
             }}
           >
-            <Button onPress={() => this.props.navigation.navigate("Login")}>
+            <RoundButton
+              onPress={() => this.props.navigation.navigate("Login")}
+            >
               Sign In
-            </Button>
+            </RoundButton>
             <View style={{ marginTop: 10 }}>
-              <Button
+              <RoundButton
                 style={{
                   backgroundColor: Colors.secondary,
                   color: Colors.white
@@ -51,7 +53,7 @@ export default class LandingScreen extends Component {
                 onPress={() => this.props.navigation.navigate("Signup")}
               >
                 Sign Up
-              </Button>
+              </RoundButton>
             </View>
           </View>
         </View>

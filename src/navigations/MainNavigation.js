@@ -12,13 +12,28 @@ import HomeScreen from "../containers/HomeScreen";
 import AboutUs from "../containers/AboutUs";
 import ContactUs from "../containers/ContactUs";
 import ProfileScreen from "../containers/ProfileScreen";
+import UpdatePassword from "../containers/UpdatePassword";
+import EditProfile from "../containers/EditProfile";
+
+const ProfileStack = createStackNavigator(
+  {
+    Profile: ProfileScreen,
+    UpdatePassword: UpdatePassword,
+    EditProfile: EditProfile
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
 
 const MainStack = createStackNavigator(
   {
     Home: HomeScreen,
     About: AboutUs,
     Contact: ContactUs,
-    Profile: ProfileScreen
+    Profile: ProfileStack
   },
   {
     defaultNavigationOptions: {

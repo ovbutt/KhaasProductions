@@ -6,19 +6,28 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  Linking
+  Linking,
+  Platform
 } from "react-native";
 import Communications from "react-native-communications";
+// import MapView from "react-native-maps";
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "./../res/utils/Colors";
-import Button from "./../components/Button";
-import QuoteForm from "./../components/QuoteForm";
-import FeedbackForm from "./../components/FeedbackForm";
+import {
+  RoundButton,
+  QuoteForm,
+  FeedbackForm,
+  TahnkYou
+} from "./../components";
 
 export default class ContactUs extends Component {
   constructor() {
     super();
-    this.state = { quoteModal: false, feedbackModal: false };
+    this.state = {
+      quoteModal: false,
+      feedbackModal: false,
+      thankYouModal: false
+    };
   }
   _renderQuoteModal = () => {
     this.setState({ quoteModal: !this.state.quoteModal });
@@ -26,17 +35,38 @@ export default class ContactUs extends Component {
   _renderFeedbackModal = () => {
     this.setState({ feedbackModal: !this.state.feedbackModal });
   };
+  _renderThankYouModal = () => {
+    this.setState({ thankYouModal: !this.state.thankYouModal });
+  };
+  _openGoogleMaps = () => {
+    const scheme = Platform.select({
+      ios: "maps:0,0?q=",
+      android: "geo:0,0?q="
+    });
+    const latLng = "31.515612,74.344103";
+    const label = "Khaas Productions";
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
+
+    Linking.openURL(url);
+  };
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.primary }}>
         <ScrollView>
-          <Icon
-            name="ios-close"
-            color="white"
-            size={35}
-            style={{ marginLeft: 20, marginTop: 20 }}
-            onPress={() => this.props.navigation.goBack()}
-          />
+          <TouchableOpacity
+            onPress={() => this.props.navigation.pop()}
+            style={{ height: 35, width: 35 }}
+          >
+            <Icon
+              name="ios-close"
+              color="white"
+              size={35}
+              style={{ marginLeft: 20, marginTop: 20 }}
+            />
+          </TouchableOpacity>
           <Text
             style={{
               color: "white",
@@ -60,29 +90,36 @@ export default class ContactUs extends Component {
           >
             Get a price quote or give us feedbacks on our feedback form
           </Text>
-          <Button
+          <RoundButton
             onPress={() => {
-              this._renderQuoteModal();
+              this.setState({ quoteModal: !this.state.quoteModal });
             }}
           >
             Quotation Form
-          </Button>
+          </RoundButton>
           <QuoteForm
             toggleView={this._renderQuoteModal}
+            toggleThankyou={this._renderThankYouModal}
             visible={this.state.quoteModal}
           />
           <View style={{ marginTop: 10 }}>
-            <Button
+            <RoundButton
               style={{ backgroundColor: Colors.secondary, color: "white" }}
               onPress={() => {
-                this._renderFeedbackModal();
+                this.setState({ feedbackModal: !this.state.feedbackModal });
               }}
             >
               Feedback Form
-            </Button>
+            </RoundButton>
             <FeedbackForm
               visible={this.state.feedbackModal}
+              toggleThankyou={this._renderThankYouModal}
               toggleView={this._renderFeedbackModal}
+            />
+            <TahnkYou
+              visible={this.state.thankYouModal}
+              toggleView={this._renderThankYouModal}
+              message="Thank your for your valuable gesture our representative will contact you shortly."
             />
           </View>
           <Text
@@ -253,19 +290,57 @@ export default class ContactUs extends Component {
             Shop#5 - 1st Floor Al latif Center Opposite Hafeez Center Gulberg
             Lahore
           </Text>
-          <Image
-            source={require("./../res/images/map.png")}
-            style={{
-              height: 250,
-              width: "90%",
-              marginBottom: 10,
-              alignSelf: "center"
+          {/* <TouchableOpacity
+            onPress={() => {
+              this._openGoogleMaps();
             }}
-          />
+          >
+            <Image
+              source={require("./../res/images/map.png")}
+              style={{
+                height: 250,
+                width: "90%",
+                marginBottom: 10,
+                alignSelf: "center"
+              }}
+            />
+          </TouchableOpacity> */}
+          <View style={{ marginBottom: 20 }}>
+            <RoundButton
+              style={{ backgroundColor: Colors.secondary, color: "white" }}
+              onPress={() => {
+                this._openGoogleMaps();
+              }}
+            >
+              Get Directions
+            </RoundButton>
+          </View>
+          {/* <View style={styles.container}>
+            <MapView
+              style={styles.map}
+              region={{
+                latitude: 37.78825,
+                longitude: -122.4324,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121
+              }}
+            />
+          </View> */}
         </ScrollView>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    height: 400,
+    width: 400,
+    justifyContent: "flex-end",
+    alignItems: "center"
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject
+  }
+});

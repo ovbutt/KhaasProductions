@@ -10,7 +10,7 @@ import {
   ScrollView
 } from "react-native";
 import Colors from "./../res/utils/Colors";
-import BottomTab from "./../components/BottomTab";
+import { BottomTab } from "./../components";
 import { Roboto, Ubuntu } from "./../res/utils/Fonts";
 
 const exploreData = [
@@ -69,7 +69,7 @@ export default class HomeScreen extends Component {
     return (
       <TouchableOpacity>
         <ImageBackground
-          style={{ width: 130, height: 180, marginLeft: 10 }}
+          style={{ width: 130, height: 180, marginLeft: 5 }}
           source={`${item.photo}`}
           imageStyle={{ borderRadius: 25 }}
         />
@@ -137,13 +137,14 @@ export default class HomeScreen extends Component {
           >
             Explore
           </Text>
-          <View style={{ marginRight: 5, marginTop: 20 }}>
+          <View style={{ marginTop: 20 }}>
             <FlatList
               data={exploreData}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               renderItem={this.exploreRender}
               keyExtractor={(item, index) => index.toString()}
+              style={{ paddingRight: 20 }}
             />
           </View>
           <Text style={[styles.headingStyle, { marginLeft: 20 }]}>

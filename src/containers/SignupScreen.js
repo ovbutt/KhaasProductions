@@ -7,8 +7,7 @@ import {
   Image,
   TouchableOpacity
 } from "react-native";
-import Button from "./../components/Button";
-import TextInput from "./../components/TextInput";
+import { RoundButton, TextField } from "./../components";
 import Colors from "./../res/utils/Colors";
 
 export default class SignupScreen extends Component {
@@ -33,13 +32,13 @@ export default class SignupScreen extends Component {
               marginBottom: 30
             }}
           />
-          <TextInput placeholder="Name" />
-          <TextInput placeholder="Email" />
-          <TextInput placeholder="Phone Number" />
-          <TextInput placeholder="Password" />
-          <TextInput placeholder="Confirm Password" />
+          <TextField placeholder="Name" />
+          <TextField placeholder="Email" />
+          <TextField placeholder="Phone Number" />
+          <TextField placeholder="Password" />
+          <TextField placeholder="Confirm Password" />
           <View style={{ marginTop: 30, marginBottom: 10 }}>
-            <Button
+            <RoundButton
               style={{
                 backgroundColor: Colors.secondary,
                 color: Colors.white
@@ -47,7 +46,7 @@ export default class SignupScreen extends Component {
               onPress={() => this.props.navigation.navigate("Main")}
             >
               Sign Up
-            </Button>
+            </RoundButton>
           </View>
           <TouchableOpacity
             onPress={() => {

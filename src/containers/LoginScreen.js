@@ -7,9 +7,8 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import Button from "./../components/Button";
+import { RoundButton, TextField } from "./../components";
 import Colors from "./../res/utils/Colors";
-import TextInput from "./../components/TextInput";
 
 export default class LoginScreen extends Component {
   constructor() {
@@ -27,10 +26,10 @@ export default class LoginScreen extends Component {
             source={require("./../res/images/Logo-Khaas.png")}
             style={{ alignSelf: "center", marginBottom: 60 }}
           />
-          <TextInput placeholder="Email" value={this.state.email} />
-          <TextInput placeholder="Password" value={this.state.pasword} />
+          <TextField placeholder="Email" value={this.state.email} />
+          <TextField placeholder="Password" value={this.state.pasword} />
           <View style={{ marginTop: 50, marginBottom: 10 }}>
-            <Button
+            <RoundButton
               style={{
                 backgroundColor: Colors.secondary,
                 color: Colors.white
@@ -38,7 +37,7 @@ export default class LoginScreen extends Component {
               onPress={() => this.props.navigation.navigate("Main")}
             >
               Sign In
-            </Button>
+            </RoundButton>
           </View>
           <TouchableOpacity
             onPress={() => {

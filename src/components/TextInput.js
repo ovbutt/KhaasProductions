@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import Colors from "./../res/utils/Colors";
+import Colors from "../res/utils/Colors";
 
 const TextField = ({ placeholder, children, style, ...rest }) => (
   <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -10,12 +10,12 @@ const TextField = ({ placeholder, children, style, ...rest }) => (
       selectionColor={Colors.white}
       underlineColorAndroid={Colors.white}
       placeholder={placeholder}
-      placeholderTextColor={Colors.white}
+      placeholderTextColor={[Colors.white]}
     />
   </View>
 );
 
-export default TextField;
+export { TextField };
 
 const styles = StyleSheet.create({
   textInputStyle: {

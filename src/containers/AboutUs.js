@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, Image } from "react-native";
+import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "./../res/utils/Colors";
 
@@ -7,13 +7,17 @@ export default class AboutUs extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.primary }}>
-        <Icon
-          name="ios-close"
-          color="white"
-          size={35}
-          style={{ marginLeft: 20, marginTop: 20 }}
-          onPress={() => this.props.navigation.goBack()}
-        />
+        <TouchableOpacity
+          onPress={() => this.props.navigation.pop()}
+          style={{ height: 35, width: 35 }}
+        >
+          <Icon
+            name="ios-close"
+            color="white"
+            size={35}
+            style={{ marginLeft: 20, marginTop: 20 }}
+          />
+        </TouchableOpacity>
         <Text
           style={{
             color: "white",

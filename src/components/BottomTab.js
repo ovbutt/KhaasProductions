@@ -89,4 +89,4 @@ const BottomTab = ({
   );
 };
 
-export default BottomTab;
+export { BottomTab };

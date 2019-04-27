@@ -9,7 +9,7 @@ const RoundButton = ({ onPress, children, style, ...rest }) => (
   </TouchableOpacity>
 );
 
-export default RoundButton;
+export { RoundButton };
 
 const styles = StyleSheet.create({
   buttonStyle: {
