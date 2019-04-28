@@ -3,7 +3,15 @@ import { View, TextInput, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Colors from "../res/utils/Colors";
 
-const TextField = ({ placeholder, children, style, ...rest }) => (
+const TextField = ({
+  placeholder,
+  children,
+  style,
+  value,
+  secureTextEntry,
+  onChangeText,
+  keyboardType
+}) => (
   <View style={{ alignItems: "center", justifyContent: "center" }}>
     <TextInput
       style={styles.textInputStyle}
@@ -11,6 +19,11 @@ const TextField = ({ placeholder, children, style, ...rest }) => (
       underlineColorAndroid={Colors.white}
       placeholder={placeholder}
       placeholderTextColor={[Colors.white]}
+      value={value}
+      secureTextEntry={secureTextEntry}
+      onChangeText={onChangeText}
+      autoCorrect={false}
+      keyboardType={`${keyboardType}`}
     />
   </View>
 );

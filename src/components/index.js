@@ -4,3 +4,4 @@ export * from "./FeedbackForm";
 export * from "./QuoteForm";
 export * from "./TahnkYou";
 export * from "./TextInput";
+export * from "./ImageView";

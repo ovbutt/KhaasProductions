@@ -5,17 +5,94 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import { RoundButton, TextField } from "./../components";
 import Colors from "./../res/utils/Colors";
+import firebase from "react-native-firebase";
+import Icon from "react-native-vector-icons/Ionicons";
 
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export default class LoginScreen extends Component {
   constructor() {
     super();
-    this.state = { email: "", pasword: "" };
+    this.state = { email: "", pasword: "", show: false, loading: false };
+  }
+  onLoginSuccess = () => {
+    this.setState({ password: "", loading: false });
+    this.props.navigation.navigate("Main");
+  };
+  onLoginFailed = error => {
+    this.setState({ password: "", loading: false });
+    alert("Log In Failed! " + error);
+  };
+  onLogin = () => {
+    const { email, password } = this.state;
+    this.setState({ loading: true });
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(user => {
+        this.onLoginSuccess();
+        console.log("User Logged In: ", user);
+      })
+      .catch(error => {
+        const { code, message } = error;
+        this.onLoginFailed(error);
+        console.log("User Logged In Error: ", error);
+      });
+  };
+  toggleShow = () => {
+    const { show } = this.state;
+    return (
+      <TouchableOpacity
+        onPress={() => this.setState({ show: !show })}
+        style={{ position: "absolute", right: 30 }}
+      >
+        <Icon name={show ? "ios-eye-off" : "ios-eye"} size={25} color="white" />
+      </TouchableOpacity>
+    );
+  };
+  toggleButton() {
+    const { loading, email, password } = this.state;
+    if (loading) {
+      return (
+        <ActivityIndicator
+          color={Colors.secondary}
+          size="large"
+          animating={loading}
+          style={{ alignSelf: "center" }}
+        />
+      );
+    } else {
+      return (
+        <RoundButton
+          style={{
+            backgroundColor: Colors.secondary,
+            color: Colors.white
+          }}
+          onPress={() => {
+            if (!email) {
+              alert("Email cannot be empty");
+            } else if (!emailRegex.test(email)) {
+              alert("Please enter a valid email (for e.g example@email.com)");
+            } else if (!password) {
+              alert("Password cannot be empty");
+            } else if (password.length < 6) {
+              alert("Password cannot be less than 6 characters");
+            } else {
+              this.onLogin();
+            }
+          }}
+        >
+          Sign In
+        </RoundButton>
+      );
+    }
   }
   render() {
+    const { email, password, show } = this.state;
     return (
       <ImageBackground
         source={require("./../res/images/loginScreenBg.png")}
@@ -26,18 +103,26 @@ export default class LoginScreen extends Component {
             source={require("./../res/images/Logo-Khaas.png")}
             style={{ alignSelf: "center", marginBottom: 60 }}
           />
-          <TextField placeholder="Email" value={this.state.email} />
-          <TextField placeholder="Password" value={this.state.pasword} />
+          <TextField
+            placeholder="Email"
+            value={email}
+            secureTextEntry={false}
+            onChangeText={email =>
+              this.setState({ email: email.toLowerCase() })
+            }
+            keyboardType="email"
+          />
+          <View>
+            <TextField
+              placeholder="Password"
+              value={password}
+              secureTextEntry={show ? false : true}
+              onChangeText={password => this.setState({ password })}
+            />
+            {this.toggleShow()}
+          </View>
           <View style={{ marginTop: 50, marginBottom: 10 }}>
-            <RoundButton
-              style={{
-                backgroundColor: Colors.secondary,
-                color: Colors.white
-              }}
-              onPress={() => this.props.navigation.navigate("Main")}
-            >
-              Sign In
-            </RoundButton>
+            {this.toggleButton()}
           </View>
           <TouchableOpacity
             onPress={() => {

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "423519091226",
+    "firebase_url": "https://khaas-app.firebaseio.com",
+    "project_id": "khaas-app",
+    "storage_bucket": "khaas-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423519091226:android:cad0cad0874c01a3",
+        "android_client_info": {
+          "package_name": "com.khaasproductions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423519091226-51ep5lpkuvavcedtafp8m9vu790av9bd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khaasproductions",
+            "certificate_hash": "a0a1c1148a321e3198bcf54fa9d23a129a899ca8"
+          }
+        },
+        {
+          "client_id": "423519091226-ivs7cc2da5or9r19k0hvr1ogm4artd7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzmIwJbR_nz_OLl4NglMK3SgUzfsYjw9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423519091226-ivs7cc2da5or9r19k0hvr1ogm4artd7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

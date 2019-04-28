@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "./../res/utils/Colors";
 import { RoundButton } from "./../components";
+import firebase from "react-native-firebase";
 
 export default class ProfileScreen extends Component {
   render() {
@@ -80,7 +81,10 @@ export default class ProfileScreen extends Component {
           <View style={{ marginTop: 10 }}>
             <RoundButton
               style={{ backgroundColor: Colors.secondary, color: "white" }}
-              onPress={() => this.props.navigation.navigate("Auth")}
+              onPress={() => {
+                firebase.auth().signOut();
+                this.props.navigation.navigate("Auth");
+              }}
             >
               Sign Out
             </RoundButton>

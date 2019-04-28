@@ -10,7 +10,7 @@ import {
   ScrollView
 } from "react-native";
 import Colors from "./../res/utils/Colors";
-import { BottomTab } from "./../components";
+import { BottomTab, ImageView } from "./../components";
 import { Roboto, Ubuntu } from "./../res/utils/Fonts";
 
 const exploreData = [
@@ -65,9 +65,21 @@ const clientsData = [
 ];
 
 export default class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      imageModal: false
+    };
+  }
+
+  toggleImageView = () => {
+    this.setState({ imageModal: !this.state.imageModal });
+  };
+
   exploreRender = ({ item }) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => this.setState({ imageModal: true })}>
         <ImageBackground
           style={{ width: 130, height: 180, marginLeft: 5 }}
           source={`${item.photo}`}
@@ -147,6 +159,11 @@ export default class HomeScreen extends Component {
               style={{ paddingRight: 20 }}
             />
           </View>
+          <ImageView
+            visible={this.state.imageModal}
+            images={exploreData}
+            toggleView={this.toggleImageView}
+          />
           <Text style={[styles.headingStyle, { marginLeft: 20 }]}>
             Categories
           </Text>
