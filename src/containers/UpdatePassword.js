@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { RoundButton, TextField, TahnkYou } from "./../components/index";
 import Colors from "./../res/utils/Colors";
-import Icons from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default class UpdatePassword extends Component {
   constructor(props) {
@@ -27,14 +27,15 @@ export default class UpdatePassword extends Component {
       >
         <TouchableOpacity
           onPress={() => this.props.navigation.pop()}
-          style={{ height: 35, width: 35 }}
+          style={{
+            height: 35,
+            width: 35,
+            position: "absolute",
+            top: 20,
+            right: 20
+          }}
         >
-          <Icon
-            name="ios-close"
-            color="white"
-            size={35}
-            style={{ marginLeft: 20, marginTop: 20 }}
-          />
+          <Icon name="ios-close" color="white" size={35} />
         </TouchableOpacity>
         <Text
           style={{
@@ -55,7 +56,7 @@ export default class UpdatePassword extends Component {
           }}
         >
           <TextField placeholder="New Password" />
-          <TextField placeholder="Confrim New Password" />
+          <TextField placeholder="Confirm New Password" />
         </View>
         <RoundButton
           style={{ backgroundColor: Colors.secondary, color: "white" }}

@@ -14,6 +14,7 @@ import ContactUs from "../containers/ContactUs";
 import ProfileScreen from "../containers/ProfileScreen";
 import UpdatePassword from "../containers/UpdatePassword";
 import EditProfile from "../containers/EditProfile";
+// import VerificationCode from "../containers/VerificationCode";
 
 const ProfileStack = createStackNavigator(
   {
@@ -47,6 +48,7 @@ const AuthStack = createStackNavigator(
     LandingScreen: LandingScreen,
     Login: LoginScreen,
     Signup: SignupScreen
+    // Verification: VerificationCode
   },
   {
     defaultNavigationOptions: {

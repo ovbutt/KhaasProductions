@@ -6,31 +6,65 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from "react-native";
 import firebase from "react-native-firebase";
 import { RoundButton, TextField } from "./../components";
 import Colors from "./../res/utils/Colors";
+import VerificationCode from "../components/VerificationCode";
 //import Regex from "./../res/utils/Regex";
 // number: /^((+92)|(0092))-{0,1}d{3}-{0,1}d{7}$|^d{11}$|^d{4}-d{7}$/,
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const nameRegex = /^[^\\/&]*$/;
+const ACCESS_ID = "access_id";
 
 export default class SignupScreen extends Component {
   constructor(props) {
     super(props);
-
+    this.ref = firebase.firestore().collection("Users");
     this.state = {
-      name: "",
-      email: "",
-      phoneNum: "",
-      password: "",
-      confirmPass: "",
-      loading: false
+      name: "Ovais",
+      email: "ov1@gmail.com",
+      phoneNum: "+923218970058",
+      password: "123456",
+      confirmPass: "123456",
+      loading: false,
+      userId: "",
+      code: "",
+      verificationModal: false
     };
+  }
+  async storeUserId(userId) {
+    try {
+      await AsyncStorage.setItem(ACCESS_ID, userId);
+      console.log("User Id Saved", userId);
+    } catch (error) {
+      console.log("User Id cannot be saved");
+    }
+  }
+
+  addUser() {
+    const { name, email, phoneNum, userId } = this.state;
+    this.ref
+      .add({
+        name: name,
+        email: email,
+        phoneNum: phoneNum,
+        userId: userId
+      })
+      .then(res => {
+        console.log("User Successfully added in firestore");
+        console.log("Response from adding user in firestore: ", res);
+      })
+      .catch(err => {
+        alert("User adding failed," + err);
+        console.log("Error from adding user in firestore: ", err);
+      });
   }
 
   onSignupSuccess = () => {
+    this.addUser();
     this.setState({ password: "", loading: false, confirmPass: "" });
     this.props.navigation.navigate("Main");
   };
@@ -91,7 +125,8 @@ export default class SignupScreen extends Component {
             } else if (password != confirmPass) {
               alert("Password & Confirm Password does not match");
             } else {
-              this.onRegister();
+              // this.onRegister();
+              this.verifyPhoneNumber();
             }
           }}
         >
@@ -101,6 +136,46 @@ export default class SignupScreen extends Component {
     }
   }
 
+  verifyPhoneNumber = () => {
+    this.setState({ loading: true });
+    firebase
+      .auth()
+      .verifyPhoneNumber(this.state.phoneNum)
+      .on(
+        "state_changed",
+        phoneAuthSnapshot => {
+          switch (phoneAuthSnapshot.state) {
+            case firebase.auth.PhoneAuthState.CODE_SENT:
+              console.log("code sent");
+              // this.setState({ loading: false });
+              // console.log("phoneAuthSnapshot1:", phoneAuthSnapshot.code);
+              break;
+            case firebase.auth.PhoneAuthState.ERROR: // or 'error'
+              console.log("verification error");
+              console.log(phoneAuthSnapshot.error);
+              this.setState({ loading: false });
+              alert("Code sending failed please try again");
+              break;
+          }
+        },
+        error => {
+          console.log(error);
+          // verificationId is attached to error if required
+          console.log("Error in verification phone number: ", error);
+        },
+        phoneAuthSnapshot => {
+          console.log("phoneAuthSnapshot2:", phoneAuthSnapshot.code);
+          this.setState({
+            code: phoneAuthSnapshot.code,
+            verificationModal: true
+          });
+          // this.props.navigation.navigate("Verification", {
+          //   code: this.state.code
+          // });
+        }
+      );
+  };
+
   onRegister = () => {
     this.setState({ loading: true });
     const { email, password } = this.state;
@@ -108,14 +183,21 @@ export default class SignupScreen extends Component {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(user => {
+        this.setState({ userId: user.user.uid });
+        this.storeUserId(user.user.uid);
         this.onSignupSuccess();
         console.log("Signup Successfull: ", user);
+        // console.log("UserID:", user.user.uid);
       })
       .catch(error => {
         const { code, message } = error;
         this.onSignupFailed(error);
         console.log("Signup Unsuccessfull: ", error);
       });
+  };
+
+  toggleView = () => {
+    this.setState({ verificationModal: !this.state.verificationModal });
   };
 
   render() {
@@ -152,9 +234,7 @@ export default class SignupScreen extends Component {
             placeholder="Email"
             value={email}
             secureTextEntry={false}
-            onChangeText={email =>
-              this.setState({ email: email.toLowerCase() })
-            }
+            onChangeText={email => this.setState({ email })}
             keyboardType="email"
           />
           <TextField
@@ -208,6 +288,13 @@ export default class SignupScreen extends Component {
             </Text>
           </TouchableOpacity>
         </View>
+        <VerificationCode
+          code={this.state.code}
+          visible={this.state.verificationModal}
+          toggleView={this.toggleView}
+          onRegister={this.onRegister}
+          verifyPhoneNumber={this.verifyPhoneNumber}
+        />
       </ImageBackground>
     );
   }

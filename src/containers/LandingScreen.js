@@ -42,7 +42,7 @@ export default class LandingScreen extends Component {
             <RoundButton
               onPress={() => this.props.navigation.navigate("Login")}
             >
-              Sign In
+              Log In
             </RoundButton>
             <View style={{ marginTop: 10 }}>
               <RoundButton
@@ -52,7 +52,7 @@ export default class LandingScreen extends Component {
                 }}
                 onPress={() => this.props.navigation.navigate("Signup")}
               >
-                Sign Up
+                Create new account
               </RoundButton>
             </View>
           </View>

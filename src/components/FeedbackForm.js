@@ -5,7 +5,8 @@ import {
   View,
   Modal,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
 import { RoundButton } from "./index";
 import Colors from "./../res/utils/Colors";

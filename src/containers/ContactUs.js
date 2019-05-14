@@ -58,14 +58,9 @@ export default class ContactUs extends Component {
         <ScrollView>
           <TouchableOpacity
             onPress={() => this.props.navigation.pop()}
-            style={{ height: 35, width: 35 }}
+            style={{ height: 35, width: 35, marginLeft: 20, marginTop: 20 }}
           >
-            <Icon
-              name="ios-close"
-              color="white"
-              size={35}
-              style={{ marginLeft: 20, marginTop: 20 }}
-            />
+            <Icon name="ios-close" color="white" size={35} />
           </TouchableOpacity>
           <Text
             style={{

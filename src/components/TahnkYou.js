@@ -4,7 +4,7 @@ import { RoundButton } from "./index";
 import Colors from "./../res/utils/Colors";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const TahnkYou = ({ visible, toggleView, message, ...rest }) => {
+const TahnkYou = ({ visible, toggleView, message, goBack, ...rest }) => {
   return (
     <Modal
       animationType="slide"
@@ -76,7 +76,10 @@ const TahnkYou = ({ visible, toggleView, message, ...rest }) => {
           <View style={{ marginTop: 30, width: "100%" }}>
             <RoundButton
               style={{ backgroundColor: Colors.secondary, color: "white" }}
-              onPress={() => toggleView()}
+              onPress={() => {
+                toggleView();
+                goBack();
+              }}
             >
               Okay
             </RoundButton>
