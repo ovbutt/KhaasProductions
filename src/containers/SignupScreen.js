@@ -24,11 +24,11 @@ export default class SignupScreen extends Component {
     super(props);
     this.ref = firebase.firestore().collection("Users");
     this.state = {
-      name: "Ovais",
-      email: "ov1@gmail.com",
-      phoneNum: "+923218970058",
-      password: "123456",
-      confirmPass: "123456",
+      name: "",
+      email: "",
+      phoneNum: "",
+      password: "",
+      confirmPass: "",
       loading: false,
       userId: "",
       code: "",

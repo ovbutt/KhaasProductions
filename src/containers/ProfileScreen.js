@@ -26,9 +26,9 @@ export default class ProfileScreen extends Component {
   }
 
   getUserData(id) {
-    console.log("Getting user data");
+    console.log("Getting user data Id is: ", id);
     this.ref
-      .where("userId", "==", "n6dfdO7E3rRP0e0ny4Hy9yiRBuo1")
+      .where("userId", "==", id)
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -49,11 +49,11 @@ export default class ProfileScreen extends Component {
   async getUserId() {
     try {
       let id = await AsyncStorage.getItem(ACCESS_ID);
-      this.getUserData(id);
       this.setState({
         userId: id
       });
       console.log("UserId is", id);
+      this.getUserData(id);
     } catch (error) {
       console.log("Cannot get UserId");
     }
@@ -138,12 +138,12 @@ export default class ProfileScreen extends Component {
           </Text>
         </View>
         <View style={{ marginTop: 40 }}>
-          <RoundButton
+          {/* <RoundButton
             //style={{ backgroundColor: Colors.secondary, color: "white" }}
             onPress={() => this.props.navigation.navigate("UpdatePassword")}
           >
             Update Password
-          </RoundButton>
+          </RoundButton> */}
 
           <View style={{ marginTop: 10 }}>
             <RoundButton

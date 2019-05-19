@@ -78,7 +78,7 @@ const TahnkYou = ({ visible, toggleView, message, goBack, ...rest }) => {
               style={{ backgroundColor: Colors.secondary, color: "white" }}
               onPress={() => {
                 toggleView();
-                goBack();
+                // goBack();
               }}
             >
               Okay

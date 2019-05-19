@@ -5,13 +5,90 @@ import {
   View,
   Modal,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { RoundButton } from "./index";
 import Colors from "./../res/utils/Colors";
 import Icon from "react-native-vector-icons/Ionicons";
+import firebase from "react-native-firebase";
+
+const ACCESS_ID = "access_id";
 
 class QuoteForm extends Component {
+  constructor(props) {
+    super(props);
+    this.ref1 = firebase.firestore().collection("Users");
+    this.ref2 = firebase.firestore().collection("Quotations");
+    this.state = {
+      name: "",
+      email: "",
+      userId: "",
+      phoneNum: "",
+      docId: "",
+      quote: ""
+    };
+  }
+
+  componentWillMount() {
+    this.getUserId();
+  }
+
+  async getUserId() {
+    try {
+      let id = await AsyncStorage.getItem(ACCESS_ID);
+      this.setState({
+        userId: id
+      });
+      console.log("UserId is", id);
+      this.getUserData(id);
+    } catch (error) {
+      console.log("Cannot get UserId");
+    }
+  }
+
+  getUserData(id) {
+    console.log("Getting user data Id is: ", id);
+    this.ref1
+      .where("userId", "==", id)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          console.log("Query Response is: ", doc.id, "=>", doc.data());
+          this.setState({
+            email: doc.data().email,
+            name: doc.data().name,
+            phoneNum: doc.data().phoneNum,
+            docId: doc.id
+          });
+        });
+      })
+      .catch(err => {
+        console.log("Error while fetching user: ", err);
+      });
+  }
+
+  saveQuotes() {
+    const { toggleView, toggleThankyou } = this.props;
+    this.ref2
+      .add({
+        name: this.state.name,
+        email: this.state.email,
+        userId: this.state.userId,
+        phoneNum: this.state.phoneNum,
+        quote: this.state.quote
+      })
+      .then(res => {
+        console.log("Response from adding quote: ", res);
+        toggleView();
+        toggleThankyou();
+      })
+      .catch(err => {
+        console.log("Error from saving quote: ", err);
+        alert(err);
+      });
+  }
+
   render() {
     const { visible, toggleView, toggleThankyou } = this.props;
     return (
@@ -74,13 +151,16 @@ class QuoteForm extends Component {
                 marginTop: 20,
                 width: "90%"
               }}
+              onChangeText={quote => {
+                this.setState({ quote });
+              }}
+              value={this.state.quote}
             />
             <View style={{ marginTop: 20, width: "100%" }}>
               <RoundButton
                 style={{ backgroundColor: Colors.secondary, color: "white" }}
                 onPress={() => {
-                  toggleView();
-                  toggleThankyou();
+                  this.saveQuotes();
                 }}
               >
                 Send Message

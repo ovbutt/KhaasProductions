@@ -22,7 +22,7 @@ export default class EditProfile extends Component {
     this.setState({ thankYouModal: !this.state.thankYouModal });
   };
   goBack = () => {
-    this.props.navigation.goBack();
+    this.props.navigation.pop(2);
   };
 
   updateUser() {
@@ -56,7 +56,7 @@ export default class EditProfile extends Component {
             width: 35,
             position: "absolute",
             top: 20,
-            right: 20
+            left: 20
           }}
         >
           <Icon name="ios-close" color="white" size={35} />
